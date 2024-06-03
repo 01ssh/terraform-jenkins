@@ -10,3 +10,4 @@ public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDcAwNY+UZk0mQ9+NcW0BNfg0FpGU
 
 #ec2_ami_id = "ami-0694d931cee176e7d"
 ec2_ami_id = "ami-00ac45f3035ff009e"
+
