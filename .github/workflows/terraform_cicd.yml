@@ -38,8 +38,8 @@ jobs:
         run: terraform plan -out=tfplan
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-        run: terraform apply -input=false -auto-approve tfplan
+     #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+      #   run: terraform apply -input=false -auto-approve tfplan
       # - name: Install kubectl
       #   uses: azure/setup-kubectl@v1
       #   with:
