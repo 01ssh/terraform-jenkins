@@ -38,17 +38,4 @@ jobs:
         run: terraform plan -out=tfplan
 
       - name: Terraform Apply
-     #   if: github.ref == 'refs/heads/main' && github.event_name == 'push'
-      #   run: terraform apply -input=false -auto-approve tfplan
-      # - name: Install kubectl
-      #   uses: azure/setup-kubectl@v1
-      #   with:
-      #     version: 'v1.21.0'
-
-      # - name: Update kubeconfig
-      #   run: |
-      #     aws eks update-kubeconfig --region ${{ env.AWS_REGION }} --name ${{ env.CLUSTER_NAME }}
-
-      # - name: Install Helm
-      #   run: |
-      #     curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+        run: terraform plan -out=tfplan
