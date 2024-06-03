@@ -15,7 +15,7 @@ jobs:
 
     env:
       AWS_REGION: eu-west-3
-      CLUSTER_NAME: kbnhvn-cluster
+      CLUSTER_NAME: parkltos-cluster
 
     steps:
       - name: Checkout code
