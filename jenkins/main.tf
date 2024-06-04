@@ -8,7 +8,7 @@ variable "enable_public_ip_address" {}
 variable "user_data_install_jenkins" {}
 
 output "ssh_connection_string_for_ec2" {
-  value = format("%s%s", "ssh -i /Users/rahulwagh/.ssh/aws_ec2_terraform ubuntu@", aws_instance.jenkins_ec2_instance_ip.public_ip)
+  value = format("%s%s", "ssh -i /home/ubuntu/.ssh/aws_ec2_terraform ubuntu@", aws_instance.jenkins_ec2_instance_ip.public_ip)
 }
    
 output "jenkins_ec2_instance_ip" {
@@ -25,7 +25,7 @@ resource "aws_instance" "jenkins_ec2_instance_ip" {
   tags = {
     Name = var.tag_name
   }
-  key_name                    = "jenkins_demo.pub"
+  key_name                    = "aws_ec2_terraform"
   subnet_id                   = var.subnet_id
   vpc_security_group_ids      = var.sg_for_jenkins
   associate_public_ip_address = var.enable_public_ip_address
@@ -42,4 +42,3 @@ resource "aws_key_pair" "jenkins_ec2_instance_public_key" {
   key_name   = "aws_ec2_terraform"
   public_key = var.public_key
 }
-
