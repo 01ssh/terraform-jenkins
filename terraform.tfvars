@@ -6,7 +6,7 @@ cidr_public_subnet   = ["11.0.1.0/24", "11.0.2.0/24"]
 cidr_private_subnet  = ["11.0.3.0/24", "11.0.4.0/24"]
 eu_availability_zone = ["eu-west-3a", "eu-west-3b"]
 
-public_key = ${{ secrets.SSH_PUBLIC_KEY }}
+public_key = ${{ secrets.AWS_PUBLIC_KEY }}
 
 #ec2_ami_id = "ami-0694d931cee176e7d"
 ec2_ami_id = "ami-00ac45f3035ff009e"
