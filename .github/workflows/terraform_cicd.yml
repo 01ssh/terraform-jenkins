@@ -7,19 +7,14 @@ on:
   pull_request:
     branches:
       - main
+  workflow_dispatch:
 
 jobs:
   terraform:
-    name: 'Terraform Plan and Apply'
     runs-on: ubuntu-latest
-
-    env:
-      AWS_REGION: eu-west-3
-      CLUSTER_NAME: parkltos-cluster
-
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v2
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
@@ -37,5 +32,6 @@ jobs:
       - name: Terraform Plan
         run: terraform plan -out=tfplan
 
-     # - name: Terraform Destroy
-     #   run: terraform destroy -auto-approve
+      - name: Terraform Apply
+        if: github.event_name == 'workflow_dispatch'
+        run: terraform apply -auto-approve tfplan
