@@ -4,19 +4,15 @@ on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
   workflow_dispatch:
-  
+
+env:
+  AWS_REGION: eu-west-3
+  CLUSTER_NAME: parkltos-cluster
+
 jobs:
   terraform:
-    name: 'Terraform Plan and Apply'
     runs-on: ubuntu-latest
-
-    env:
-      AWS_REGION: eu-west-3
-      CLUSTER_NAME: parkltos-cluster
 
     steps:
       - name: Checkout code
@@ -38,8 +34,10 @@ jobs:
       - name: Terraform Plan
         run: terraform plan -out=tfplan
 
-      #- name: Terraform Apply
-       # run: terraform apply -auto-approve tfplan
-      
-       - name: Terraform Destroy
-         run: terraform destroy -auto-approve
+      - name: Terraform Apply
+        if: github.event_name == 'push'
+        run: terraform apply -auto-approve tfplan
+
+      - name: Terraform Destroy
+        if: github.event_name == 'workflow_dispatch'
+        run: terraform destroy -auto-approve
