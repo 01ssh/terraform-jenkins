@@ -1,4 +1,3 @@
-# Terminate all instances
 for id in $(aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --output text)
 do
   aws ec2 terminate-instances --instance-ids $id
@@ -23,20 +22,14 @@ do
   aws ec2 delete-internet-gateway --internet-gateway-id $id
 done
 
+# Delete all target groups
+for id in $(aws elbv2 describe-target-groups --query 'TargetGroups[*].TargetGroupArn' --output text)
+do
+  aws elbv2 delete-target-group --target-group-arn $id
+done
+
 # Delete all route tables
 for id in $(aws ec2 describe-route-tables --query 'RouteTables[*].RouteTableId' --output text)
 do
   aws ec2 delete-route-table --route-table-id $id
-done
-
-# Delete all network ACLs
-for id in $(aws ec2 describe-network-acls --query 'NetworkAcls[*].NetworkAclId' --output text)
-do
-  aws ec2 delete-network-acl --network-acl-id $id
-done
-
-# Delete all VPCs
-for id in $(aws ec2 describe-vpcs --query 'Vpcs[*].VpcId' --output text)
-do
-  aws ec2 delete-vpc --vpc-id $id
 done
