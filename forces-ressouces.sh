@@ -1,3 +1,6 @@
+#!/bin/bash
+
+# Delete all instances
 for id in $(aws ec2 describe-instances --query 'Reservations[*].Instances[*].InstanceId' --output text)
 do
   aws ec2 terminate-instances --instance-ids $id
@@ -6,10 +9,16 @@ done
 # Wait for all instances to be terminated
 aws ec2 wait instance-terminated
 
-# Delete all subnets
-for id in $(aws ec2 describe-subnets --query 'Subnets[*].SubnetId' --output text)
+# Delete all load balancers
+for arn in $(aws elbv2 describe-load-balancers --query 'LoadBalancers[*].LoadBalancerArn' --output text)
 do
-  aws ec2 delete-subnet --subnet-id $id
+  aws elbv2 delete-load-balancer --load-balancer-arn $arn
+done
+
+# Delete all network interfaces
+for id in $(aws ec2 describe-network-interfaces --query 'NetworkInterfaces[*].NetworkInterfaceId' --output text)
+do
+  aws ec2 delete-network-interface --network-interface-id $id
 done
 
 # Detach and delete all internet gateways
@@ -22,14 +31,16 @@ do
   aws ec2 delete-internet-gateway --internet-gateway-id $id
 done
 
-# Delete all target groups
-for id in $(aws elbv2 describe-target-groups --query 'TargetGroups[*].TargetGroupArn' --output text)
+# Delete all subnets
+for id in $(aws ec2 describe-subnets --query 'Subnets[*].SubnetId' --output text)
 do
-  aws elbv2 delete-target-group --target-group-arn $id
+  aws ec2 delete-subnet --subnet-id $id
 done
 
-# Delete all route tables
-for id in $(aws ec2 describe-route-tables --query 'RouteTables[*].RouteTableId' --output text)
+# Delete all VPCs
+for id in $(aws ec2 describe-vpcs --query 'Vpcs[*].VpcId' --output text)
 do
-  aws ec2 delete-route-table --route-table-id $id
+  aws ec2 delete-vpc --vpc-id $id
 done
+
+echo "All specified resources have been deleted."

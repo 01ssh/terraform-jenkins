@@ -16,3 +16,6 @@ wget https://releases.hashicorp.com/terraform/1.6.5/terraform_1.6.5_linux_386.zi
 yes | sudo apt-get install unzip
 unzip 'terraform*.zip'
 sudo mv terraform /usr/local/bin/
+curl "https://d1vvhvl2y92vvt.cloudfront.net/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+sudo ./aws/install
