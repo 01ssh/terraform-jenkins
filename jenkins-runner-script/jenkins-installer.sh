@@ -51,19 +51,21 @@ eksctl version
 
 # Mettez à jour le cache des packages et installez les dépendances pour ajouter un repository via HTTPS
 sudo apt update
-sudo apt install -y apt-transport-https ca-certificates curl software-properties-common
+# Installez le package software-properties-common
+sudo apt update && sudo apt install -y software-properties-common
 
-# Téléchargez la clé GPG officielle de Docker
+# Ajoutez le dépôt Docker à votre liste de sources APT
+echo "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable" | sudo tee -a /etc/apt/sources.list
+
+# Importez la clé GPG de Docker
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
 
-# Ajoutez le repository Docker à votre liste de sources APT
-yes | sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
-
-# Mettez à jour à nouveau le cache des packages maintenant que le repository Docker est ajouté
+# Mettez à jour à nouveau le cache des packages maintenant que le dépôt Docker est ajouté
 sudo apt update
 
 # Installez Docker Engine
-sudo apt install -y docker-ce docker-ce-cli containerd.io < <(echo "")
+sudo apt install -y docker-ce docker-ce-cli containerd.io
+
 
 # Ajoutez votre utilisateur au groupe docker pour exécuter des commandes Docker sans sudo
 sudo usermod -aG docker $USER
@@ -76,5 +78,11 @@ docker --version
 
 sudo systemctl start docker
 sudo systemctl enable docker
+
+mkdir terminé
+
+sudo su  - jenkins
+
+#eksctl create cluster --name my-little-eks --region eu-west-3 --nodegroup-name my-nodes --node-type t3.small --managed --nodes 2 
 
 
