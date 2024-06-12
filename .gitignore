@@ -36,8 +36,8 @@ Thumbs.db
 crash.log
 .terraform.lock.hcl
 .git
-
-
+kubectl
+.kubectl
 # Ignore SSH key
 *.pem
 
